@@ -3,7 +3,10 @@
 // ESP8266MOD12F
 // -------------------------------------------------------------------------------------
 
+#include "Led.h"
+
 #include "wifiData.h"
+
 #include <ESP8266WiFi.h>
 #include <NTPClient.h>
 #include <WiFiUdp.h>
@@ -31,6 +34,8 @@ char daysOfTheWeek[7][3] = { "So", "Mo", "Di", "Mi", "Do", "Fr", "Sa" };
 
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "pool.ntp.org", utcOffsetInSeconds);
+
+Led LedBuiltIn(2);
 
 void setup() {
   Serial.begin(9600);
@@ -109,7 +114,7 @@ void loop() {
 
   display.display();
 
-  toggleStatusLed();
+  LedBuiltIn.toggle();
 
   delay(1000);
 }
@@ -128,13 +133,5 @@ String getCurrentDate() {
 // -------------------------------------------------------------------------------------
 String getCurrentTime() {
   return timeClient.getFormattedTime();
-}
-// -------------------------------------------------------------------------------------
-void toggleStatusLed() {
-  if (digitalRead(LED_BUILTIN_PIN) == HIGH) {
-    digitalWrite(LED_BUILTIN_PIN, LOW);
-  } else {
-    digitalWrite(LED_BUILTIN_PIN, HIGH);
-  }
 }
 // -------------------------------------------------------------------------------------
