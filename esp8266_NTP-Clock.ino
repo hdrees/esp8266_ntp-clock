@@ -27,11 +27,11 @@
 #define SCREEN_ADDRESS 0x3C  // See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
-#define LED_BUILTIN_PIN 2  // PIN für Status-LES
+#define LED_BUILTIN_PIN 2  // PIN für Status-LED
 
 // Define NTP Client to get time
-//Zeitverschiebung UTC <-> MEZ (Winterzeit) = 3600 Sekunden (1 Stunde)
-//Zeitverschiebung UTC <-> MEZ (Sommerzeit) = 7200 Sekunden (2 Stunden)
+// Zeitverschiebung UTC <-> MEZ (Winterzeit) = 3600 Sekunden (1 Stunde)
+// Zeitverschiebung UTC <-> MEZ (Sommerzeit) = 7200 Sekunden (2 Stunden)
 const long utcOffsetInSeconds = 3600;
 char daysOfTheWeek[7][3] = { "So", "Mo", "Di", "Mi", "Do", "Fr", "Sa" };
 
@@ -42,6 +42,10 @@ Led LedBuiltIn(2);
 
 void setup() {
   Serial.begin(9600);
+
+  // auf serielle Verbindung warten
+  while (!Serial) {;}
+
   Serial.println("Setup NTP Clock ...");
 
   // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
